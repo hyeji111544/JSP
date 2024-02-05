@@ -6,7 +6,7 @@ public class User3DTO{
 	private String name;
 	private String birth;
 	private String hp;
-	private String age;
+	private String addr;
 	
 	public String getUid() {
 		return uid;
@@ -32,15 +32,15 @@ public class User3DTO{
 	public void setHp(String hp) {
 		this.hp = hp;
 	}
-	public String getAge() {
-		return age;
+	public String getAddr() {
+		return addr;
 	}
-	public void setAge(String age) {
-		this.age = age;
+	public void setAddr(String addr) {
+		this.addr = addr;
 	}
 	@Override
 	public String toString() {
-		return "User3DTO [uid=" + uid + ", name=" + name + ", birth=" + birth + ", hp=" + hp + ", age=" + age + "]";
+		return "User3DTO [uid=" + uid + ", name=" + name + ", birth=" + birth + ", hp=" + hp + ", addr=" + addr + "]";
 	}
 	
 	

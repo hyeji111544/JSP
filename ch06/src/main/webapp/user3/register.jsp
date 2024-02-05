@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>user3::modify</title>
+		<title>user3::register</title>
 	</head>
 	<body>
 		<h3>user3 등록</h3>
@@ -22,7 +22,7 @@
 			</tr>
 			<tr>
 				<td>생일</td>
-				<td><input type="text" name="birth"></td>
+				<td><input type="date" name="birth"></td>
 			</tr>
 			<tr>
 				<td>휴대폰</td>
