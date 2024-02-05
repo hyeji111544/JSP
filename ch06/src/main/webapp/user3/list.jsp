@@ -1,4 +1,26 @@
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="dto.User3DTO"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+
+	String host= "jdbc:mysql://127.0.0.1:3306/studydb";
+	String user= "hyeji";
+	String pass= "abc1234";
+	
+	List<User3DTO> users = new ArrayList<>();
+	
+	try{
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection(host, user, pass);
+		
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+
+%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -27,7 +49,7 @@
 					<td>경남 김해시</td>
 					<td>
 						<a href="#">수정</a>
-						<a href="#">삭제</a>
+						<a href="./delete.jsp">삭제</a>
 					</td>
 				</tr>
 			
