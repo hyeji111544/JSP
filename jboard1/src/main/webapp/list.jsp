@@ -1,5 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="./_header.jsp"%>
+<%
+	// 사용자 세션 열기
+	//UserDTO sessUser = (UserDTO) session.getAttribute("sessUser");
+	
+	//로그인을 하지 않은 경우
+
+%>
+
 <main>
 	<section class="list">
 		<h3>글목록</h3>
@@ -31,7 +39,7 @@
 		</div>
 
 		<div>
-			<a href="#" class="btnWrite">글쓰기</a>
+			<a href="/jboard1/write.jsp" class="btnWrite">글쓰기</a>
 		</div>
 	</section>
 </main>

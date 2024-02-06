@@ -1,10 +1,9 @@
-package ko.co.jboard1.dto;
+package kr.co.jboard1.dto;
 
 public class TermsDTO {
-	
+
 	private String terms;
 	private String privacy;
-	
 	
 	public String getTerms() {
 		return terms;
@@ -18,5 +17,12 @@ public class TermsDTO {
 	public void setPrivacy(String privacy) {
 		this.privacy = privacy;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "TermsDTO [terms=" + terms + ", privacy=" + privacy + "]";
+	}
+	
+	
+	
 }
