@@ -7,6 +7,7 @@
 
 	request.setCharacterEncoding("UTF-8");
 	String pg = request.getParameter("pg");
+	
 	ArticleDAO dao = ArticleDAO.getInstance();
 
 	//전체 글 갯수(144)

@@ -33,7 +33,6 @@ public class ArticleDAO extends DBHelper {
 		}
 	}
 	
-	
 	public ArticleDTO selectArticle(String no) {
 		ArticleDTO article = null;
 		try {
@@ -41,7 +40,6 @@ public class ArticleDAO extends DBHelper {
 			psmt = conn.prepareStatement(SQL.SELECT_ARTICLE);
 			psmt.setString(1, no);
 			
-			System.out.println(psmt);
 			rs = psmt.executeQuery();
 			
 			if(rs.next()) {
@@ -66,7 +64,6 @@ public class ArticleDAO extends DBHelper {
 		
 		return article;
 	}
-	
 	
 	public List<ArticleDTO> selectArticles(int start) {
 		List<ArticleDTO> articles = new ArrayList<>();
@@ -102,10 +99,96 @@ public class ArticleDAO extends DBHelper {
 		}
 		return articles;
 	}
-	public void updatetArticle(ArticleDTO article) {}
-	public void deletetArticle(int no) {}
+	
+	public void updatetArticle(ArticleDTO article) {
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE);
+			psmt.setString(1, article.getTitle());
+			psmt.setString(2, article.getContent());
+			psmt.setInt(3, article.getNo());
+			
+			psmt.executeUpdate();
+			closeAll();
+		}catch(Exception e) {
+			e.printStackTrace(); 
+		}
+	}
+	
+	public void deleteArticle(String no) {
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.DELETE_ARTICLE);
+			psmt.setString(1, no);
+			psmt.setString(2, no);
+			
+			psmt.executeUpdate();
+			closeAll();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	//사용자 정의 CRUD 메서드
+	
+	public void insertComment(ArticleDTO comment) {
+		try {
+			conn = getConnection();
+			conn.setAutoCommit(false); //트랜잭션 시작
+			
+			psmt = conn.prepareStatement(SQL.INSERT_COMMENT);
+			psmt.setInt(1, comment.getParent());
+			psmt.setString(2, comment.getContent());
+			psmt.setString(3, comment.getWriter());
+			psmt.setString(4, comment.getRegip());
+			
+			
+			psmtEtc1 = conn.prepareStatement(SQL.UPDATE_COMMENT_PLUS);
+			psmtEtc1.setInt(1, comment.getParent());
+			
+			
+			psmt.executeUpdate();
+			psmtEtc1.executeUpdate();
+			
+			conn.commit(); // 트랜잭션 종료
+			closeAll();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<ArticleDTO> selectComments(String parent) {
+		
+		List<ArticleDTO> comments = new ArrayList<>();
+		
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_COMMENTS);
+			psmt.setString(1, parent);
+			
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				ArticleDTO comment = new ArticleDTO();
+				comment.setNo(rs.getInt(1));
+				comment.setParent(rs.getInt(2));
+				comment.setContent(rs.getString(6));
+				comment.setWriter(rs.getString(9));
+				comment.setRegip(rs.getString("regip"));//칼럼명 작성 가능.
+				comment.setRdate(rs.getString("rdate"));
+				comment.setNick(rs.getString("nick"));
+				
+				comments.add(comment);
+			}
+			closeAll();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return comments;
+	}
+	
 	public int selectCountTotal() {
 		int total = 0;
 		try {
@@ -123,13 +206,51 @@ public class ArticleDAO extends DBHelper {
 	}
 	
 	public void updateHitCount(String no) {
+
 		try {
 			conn = getConnection();
 			psmt = conn.prepareStatement(SQL.UPDATE_HIT_COUNT);
 			psmt.setString(1, no);
-			System.out.println(psmt);
 			
 			psmt.executeUpdate();
+			closeAll();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void modifyComment(ArticleDTO article) {
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.MODIFY_COMMENT);
+			psmt.setString(1, article.getContent());
+			psmt.setInt(2, article.getParent());
+			psmt.setInt(3, article.getNo());
+			
+			psmt.executeUpdate();
+			
+			closeAll();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteComment(String parent, String no) {
+		try {
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			
+			psmt = conn.prepareStatement(SQL.DELETE_COMMENT);
+			psmt.setString(1, no);
+			
+			psmtEtc1 = conn.prepareStatement(SQL.UPDATE_COMMENT_MINUS);
+			psmtEtc1.setString(1, parent);
+			
+			psmt.executeUpdate();
+			psmtEtc1.executeUpdate();
+			
+			conn.commit();
 			closeAll();
 			
 		}catch(Exception e) {
