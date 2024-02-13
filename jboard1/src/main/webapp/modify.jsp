@@ -7,6 +7,8 @@
 	String no = request.getParameter("no");
     String title = (String) session.getAttribute("title");
     String content = (String) session.getAttribute("content");
+    
+    //수정글 조회
 	ArticleDAO dao = ArticleDAO.getInstance();
 	
 	ArticleDTO article = dao.selectArticle(no);
@@ -18,7 +20,7 @@
 			<form action="/jboard1/proc/modifyProc.jsp" method="post">
 			
 			<!-- 추가 전송을 위해 hidden 필드 사용 -->
-            	<input type="hidden" name="no" readonly="readonly" value="<%= no %>">
+            	<input type="hidden" name="no" value="<%= no %>">
 			
 				<table>
 					<tr>
@@ -35,7 +37,7 @@
 					</tr>
 				</table>
 				<div>
-					<a href="/jboard1/list.jsp" class="btnCancel">취소</a> 
+					<a href="/jboard1/view.jsp?no=<%= no %>" class="btnCancel">취소</a> 
 					<input type="submit" value="수정완료" class="btnWrite">
 				</div>
 			</form>

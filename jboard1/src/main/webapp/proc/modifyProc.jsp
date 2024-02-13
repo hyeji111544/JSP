@@ -6,19 +6,16 @@
 	String title   = request.getParameter("title");
 	String content = request.getParameter("content");
 	String file    = request.getParameter("file");
-	String writer  = request.getParameter("writer");
 	String no	   = request.getParameter("no");
 	String regip   = request.getRemoteAddr();
 
 	
-	int noInt = Integer.parseInt(no);
 	
 	ArticleDTO article = new ArticleDTO();
 	article.setTitle(title);
 	article.setContent(content);
-	article.setWriter(writer);
 	article.setRegip(regip);
-	article.setNo(noInt);
+	article.setNo(no);
 	
 	ArticleDAO dao = ArticleDAO.getInstance();
 	dao.updatetArticle(article);

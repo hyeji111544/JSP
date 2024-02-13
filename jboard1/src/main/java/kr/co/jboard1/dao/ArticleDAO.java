@@ -219,13 +219,12 @@ public class ArticleDAO extends DBHelper {
 			e.printStackTrace();
 		}
 	}
-	public void modifyComment(ArticleDTO article) {
+	public void updateComment(ArticleDTO comment) {
 		try {
 			conn = getConnection();
-			psmt = conn.prepareStatement(SQL.MODIFY_COMMENT);
-			psmt.setString(1, article.getContent());
-			psmt.setInt(2, article.getParent());
-			psmt.setInt(3, article.getNo());
+			psmt = conn.prepareStatement(SQL.UPDATE_COMMENT);
+			psmt.setString(1, comment.getContent());
+			psmt.setInt(2, comment.getNo());
 			
 			psmt.executeUpdate();
 			

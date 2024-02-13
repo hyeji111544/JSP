@@ -11,6 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	TermsDTO dto = UserDAO.getInstance().selectTerms();
+
 %>
 <%@ include file="./_header.jsp" %>
 <script>
@@ -39,6 +40,7 @@
 <main>
     <section class="terms">
     	<form action="/jboard1/user/proc/termsProc.jsp" name="frmTerms" method="post">
+    		
 	        <table>
 	            <caption>사이트 이용약관</caption>
 	            <tr>
@@ -57,6 +59,17 @@
 	                    <textarea readonly><%= dto.getPrivacy() %></textarea>
 	                    <p>
 	                        <label><input type="checkbox" name="chk2"/>동의합니다.</label>
+	                    </p>
+	                </td>
+	            </tr>
+	        </table>
+	        <table>
+	            <caption>마케팅 수신동의</caption>
+	            <tr>
+	                <td>
+	                    <textarea readonly><%= dto.getSms() %></textarea>
+	                    <p>
+	                        <label><input type="checkbox" name="sms" value="Y"/>동의합니다.</label>
 	                    </p>
 	                </td>
 	            </tr>

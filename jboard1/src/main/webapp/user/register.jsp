@@ -2,6 +2,7 @@
 <%@ include file="./_header.jsp" %>
 <%
 	Boolean agree = (Boolean) session.getAttribute("agree");
+	String sms = (String) session.getAttribute("sms");
 
 	if(agree == null){
 		response.sendRedirect("/jboard1/terms.jsp");
@@ -11,6 +12,7 @@
 <main>
     <section class="register">
         <form action="/jboard1/user/proc/registerProc.jsp" method="post">
+        	<input type="hidden" name="sms" value="<%= sms %>">
             <table border="1">
                 <caption>사이트 이용정보 입력</caption>
                 <tr>

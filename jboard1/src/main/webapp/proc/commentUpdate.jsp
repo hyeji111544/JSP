@@ -4,19 +4,16 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String content = request.getParameter("content");
-	String parent = request.getParameter("parent");
 	String no = request.getParameter("no");
+	String parent = request.getParameter("parent");
 	
-	int noInt = Integer.parseInt(no);
-	int parentInt = Integer.parseInt(parent);
 	
-	ArticleDTO article = new ArticleDTO();
-	article.setContent(content);
-	article.setParent(parentInt);
-	article.setNo(noInt);
+	ArticleDTO comment = new ArticleDTO();
+	comment.setContent(content);
+	comment.setNo(no);
 	
 	ArticleDAO dao = ArticleDAO.getInstance();
-	dao.modifyComment(article);
+	dao.updateComment(comment);
 	
 	response.sendRedirect("/jboard1/view.jsp?no="+parent);
 %>
