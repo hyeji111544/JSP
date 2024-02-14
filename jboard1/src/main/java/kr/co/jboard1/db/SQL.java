@@ -27,16 +27,24 @@ public class SQL {
 												+ "`writer`=?, "
 												+ "`regip`=?, "
 												+ "`rdate`=NOW()";
-	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(*) FROM `Article` WHERE `parent`=0;";
 	
-	public static final String SELECT_ARTICLES = "SELECT a.*, b.nick "
+	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(*) FROM `article` AS a JOIN `user` AS b "
+													+ "ON a.writer = b.uid WHERE a.`parent` = 0 ";
+	
+	public static final String SELECT_ARTICLES = "SELECT a.*, b.`nick` "
 												+ "FROM `article` AS a "
 												+ "JOIN `user` AS b "
 												+ "ON a.writer = b.uid "
-												+ "WHERE `parent`=0 "
-												+ "ORDER BY `no` DESC "
-												+ "LIMIT ?, 10";
+												+ "WHERE `parent`=0 ";
 	
+	public static final String SELECT_ARTICLES_WHERE_TITLE = "AND `title` like ?";
+	public static final String SELECT_ARTICLES_WHERE_CONTENT = "AND `content` like ?";
+	public static final String SELECT_ARTICLES_WHERE_TITLE_CONTENT = "AND (`title` like ? OR `content` like ?)";
+	public static final String SELECT_ARTICLES_WHERE_WRITER= "AND `nick` like ?";
+												
+	public static final String SELECT_ARTICLES_ORDER_LIMIT = "ORDER BY `no` DESC LIMIT ?, 10";
+																									
+
 	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick "
 												+ "FROM `Article` AS a "
 												+ "JOIN `user` AS b ON a.writer = b.uid "

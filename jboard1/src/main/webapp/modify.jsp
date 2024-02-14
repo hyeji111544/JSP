@@ -5,13 +5,24 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String no = request.getParameter("no");
+	String pg = request.getParameter("pg");
+	String searchType = request.getParameter("searchType");
+	String keyword = request.getParameter("keyword");
     String title = (String) session.getAttribute("title");
     String content = (String) session.getAttribute("content");
+    
+	System.out.println("modPg: "+ pg);
     
     //수정글 조회
 	ArticleDAO dao = ArticleDAO.getInstance();
 	
 	ArticleDTO article = dao.selectArticle(no);
+	
+	
+	String params = "";
+	if(searchType != null && keyword != null){
+		params = "&searchType="+searchType+"&keyword="+keyword;
+	}
 %>
 <main>
 	<section class="modify">
@@ -21,7 +32,9 @@
 			
 			<!-- 추가 전송을 위해 hidden 필드 사용 -->
             	<input type="hidden" name="no" value="<%= no %>">
-			
+            	<input type="hidden" name="pg" value="<%= pg %>">
+            	<input type="hidden" name="params" value="<%= params %>">
+				
 				<table>
 					<tr>
 						<td>제목</td>
@@ -37,7 +50,7 @@
 					</tr>
 				</table>
 				<div>
-					<a href="/jboard1/view.jsp?no=<%= no %>" class="btnCancel">취소</a> 
+					<a href="/jboard1/view.jsp?no=<%= no +params%>&pg=<%= pg %>" class="btnCancel">취소</a> 
 					<input type="submit" value="수정완료" class="btnWrite">
 				</div>
 			</form>

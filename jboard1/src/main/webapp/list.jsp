@@ -7,11 +7,14 @@
 
 	request.setCharacterEncoding("UTF-8");
 	String pg = request.getParameter("pg");
+	String searchType = request.getParameter("searchType");
+	String keyword	  = request.getParameter("keyword");
 	
 	ArticleDAO dao = ArticleDAO.getInstance();
 
+
 	//전체 글 갯수(144)
-	int total = dao.selectCountTotal();
+	int total = dao.selectCountTotal(searchType, keyword);
 	
 	//마지막 페이지 번호 계산
 	int lastPageNum = 0;
@@ -26,7 +29,7 @@
 	int currentPg = 1;
 	
 	if(pg != null){
-		currentPg = Integer.parseInt(pg.trim());
+		currentPg = Integer.parseInt(pg);
 	}
 	
 	// limit 시작값 계산
@@ -44,17 +47,31 @@
 	// 페이지 시작번호 계산
 	int pageStartNum = total - start;
 	
+	List<ArticleDTO> articles = null;
+	String params = "";
+	
+	if(searchType == null && keyword == null){
 	//글 조회
-	List<ArticleDTO> articles = dao.selectArticles(start); 
+	articles = dao.selectArticles(start); 
+	
+	}else{
+	//검색 조회
+	articles = dao.selectArticlesForSearch(searchType, keyword, start);
+	//동적 파라미터 생성
+	params = "&searchType="+searchType+"&keyword="+keyword;
+	}
+	
+
+	
 %>
 <script>
 
 	window.onload = function(){
 		
 		//const searchForm = document.getElementsByClassName('search')[0];
-		const btnSearch = document.search.submit;
+		/*const btnSearch = document.search.submit;
 		btnSearch.onclick = ()=>{
-			alert('검색클릭!');
+			alert('검색클릭!'); */
 		}
 		
 	}
@@ -63,9 +80,9 @@
 
 <main>
 	<section class="list">
-		<h3>글목록</h3>
+		<h3><a href="/jboard1/list.jsp">글목록</a></h3>
 		<!-- 검색 -->
-		<form action="/jboard1/proc/searchProc.jsp" class="search" name="search">
+		<form action="/jboard1/list.jsp" class="search" name="search">
 			<select name="searchType">
 				<option value="title">제목</option>
 				<option value="content">내용</option>
@@ -73,7 +90,7 @@
 				<option value="writer">작성자</option>
 			</select>
 				<input type="text" name="keyword" placeholder="검색 키워드 입력">
-				<input type="submit" name="submit" value="검색">
+				<input type="submit" value="검색">
 		</form>
 		<article>
 			<table>
@@ -89,7 +106,7 @@
 				for(ArticleDTO article: articles){ 
 				%>
 					<td><%= pageStartNum-- %></td>
-					<td><a href="/jboard1/view.jsp?no=<%= article.getNo() %>"><%= article.getTitle() %></a>[<%= article.getComment() %>]</td>
+					<td><a href="/jboard1/view.jsp?no=<%= article.getNo() + params %>&pg=<%= currentPg %>"><%= article.getTitle() %></a>&nbsp;[<%= article.getComment() %>]</td>
 					<td><%= article.getNick() %></td>
 					<td><%= article.getRdate().substring(2, 10) %></td>
 					<td><%= article.getHit() %></td>
@@ -102,15 +119,15 @@
 		<div class="paging">
 		
 			<% if(pageGroupStart > 1){ %>
-			<a href="/jboard1/list.jsp?pg=<%= pageGroupStart - 1 %>" class="prev">이전</a> 
+			<a href="/jboard1/list.jsp?pg=<%= pageGroupStart - 1 + params%>" class="prev">이전</a> 
 			<% } %>
 			
 			<% for(int n=pageGroupStart; n<=pageGroupEnd; n++) { %>
-				<a href="/jboard1/list.jsp?pg=<%= n %>" class="num <%= (currentPg == n) ? "current" : "" %>"><%= n %></a>
+				<a href="/jboard1/list.jsp?pg=<%= n + params %>" class="num <%= (currentPg == n) ? "current" : "" %>"><%= n %></a>
 			<% } %>
 			
 			<% if(pageGroupEnd < lastPageNum){ %>
-			<a href="/jboard1/list.jsp?pg=<%= pageGroupEnd + 1 %>"	class="next">다음</a>
+			<a href="/jboard1/list.jsp?pg=<%= pageGroupEnd + 1 + params%>"	class="next">다음</a>
 			<% } %>
 		</div>
 
