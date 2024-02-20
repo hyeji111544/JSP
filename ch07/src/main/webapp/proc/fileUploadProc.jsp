@@ -1,4 +1,4 @@
-<%@page import="ch07.dto.FileDTO"%>
+<%@page import="dto.FileDTO"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="javax.sql.DataSource"%>

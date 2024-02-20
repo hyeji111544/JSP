@@ -3,7 +3,7 @@
 <%@page import="java.io.BufferedInputStream"%>
 <%@page import="java.io.File"%>
 <%@page import="java.net.URLEncoder"%>
-<%@page import="ch07.dto.FileDTO"%>
+<%@page import="dto.FileDTO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>

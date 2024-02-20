@@ -1,5 +1,5 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="ch07.dto.FileDTO"%>
+<%@page import="dto.FileDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>

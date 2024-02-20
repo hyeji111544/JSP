@@ -1,4 +1,4 @@
-package ch07.dto;
+package dto;
 
 public class FileDTO {
 	private int fno;
