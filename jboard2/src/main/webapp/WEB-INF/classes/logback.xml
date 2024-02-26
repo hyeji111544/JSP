@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+<!-- 다른 프로젝트에서도 써야하니, 파일 경로를 하드코딩으로 하지 않기 위해 -->
+<property name="NAME" value="joard2"/>
+<property name="LOG_DIR" value="/logs/"/>
+
+	<!-- 기본 콘솔 출력 어펜더 -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  
+ 	 <!-- 기본 파일 출력 어펜더 -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>${LOG_DIR}/${NAME}.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+    </encoder>
+  	</appender>
+  
+  	<!-- 날짜별 파일 출력 어펜더 -->
+     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		<fileNamePattern>${LOG_DIR}/${NAME}-%d{yyyy-MM-dd}.log</fileNamePattern>     
+     </rollingPolicy>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+    </encoder>
+  	</appender>
+  	
+	<!-- 
+		개발 레벨: debug
+		운영 레벨: warn
+	 -->
+  <root level="debug">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="ROLLING_FILE" />
+  </root>
+</configuration>
