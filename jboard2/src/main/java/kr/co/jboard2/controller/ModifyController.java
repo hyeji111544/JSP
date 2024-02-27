@@ -9,11 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import kr.co.jboard2.dto.ArticleDTO;
+import kr.co.jboard2.service.ArticleService;
+
 @WebServlet("/modify.do")
 public class ModifyController extends HttpServlet{
 
 	private static final long serialVersionUID = 32423421L;
-
+	private ArticleService service= ArticleService.getInstance();
+	private Logger logger = LoggerFactory.getLogger(this.getClass()); 
 	
 	@Override
 	public void init() throws ServletException {
@@ -21,7 +28,13 @@ public class ModifyController extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		
+		String no = req.getParameter("no");
+		
+		ArticleDTO article = service.selectArticle(no);
+		
+		req.setAttribute("article", article);
+		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/modify.jsp");
 		dispatcher.forward(req, resp);
 		
@@ -29,5 +42,21 @@ public class ModifyController extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String title = req.getParameter("title");
+		String content = req.getParameter("content");
+		String no = req.getParameter("no");
+		
+		System.out.println("title: " + title);
+		System.out.println("doPostNo: " + no);
+		
+		ArticleDTO article = new ArticleDTO();
+		article.setTitle(title);
+		article.setContent(content);
+		article.setNo(no);
+
+		service.updateArticle(article);
+		
+		resp.sendRedirect("/jboard2/view.do?no="+article.getNo());
 	}
 }

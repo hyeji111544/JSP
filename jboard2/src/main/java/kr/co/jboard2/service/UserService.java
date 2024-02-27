@@ -38,8 +38,8 @@ public class UserService {
 	public void insertUser(UserDTO userDTO) {
 		dao.insertUser(userDTO);
 	}
-	public UserDTO selectUser() {
-		return dao.selectUser();
+	public UserDTO selectUserForLogin(String uid, String pass) {
+		return dao.selectUserForLogin(uid, pass);
 	}
 	public List<UserDTO> selectUsers() {
 		return dao.selectUsers();

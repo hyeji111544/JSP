@@ -16,11 +16,10 @@ import org.slf4j.LoggerFactory;
 import kr.co.jboard2.dto.UserDTO;
 import kr.co.jboard2.service.UserService;
 
-@WebServlet ("/user/login.do")
-public class LoginController extends HttpServlet{
+@WebServlet ("/user/logout.do")
+public class LogoutController extends HttpServlet{
 
 	private static final long serialVersionUID = 3412314141L;
-	private UserService service = UserService.getInstance();
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -31,29 +30,17 @@ public class LoginController extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//로그아웃 처리(세션 해제)
+		HttpSession session = req.getSession();
 
-		RequestDispatcher dispatcher= req.getRequestDispatcher("/user/login.jsp");
-		dispatcher.forward(req, resp);
+		session.removeAttribute("sessUser");
+		session.invalidate();
+		
+		resp.sendRedirect("/jboard2/user/login.do");
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		String uid = req.getParameter("uid");
-		String pass = req.getParameter("pass");
-		
-		UserDTO userDTO = service.selectUserForLogin(uid, pass);
-		
-		if(userDTO != null) {
-			// 회원 맞음
-			HttpSession session = req.getSession();
-			session.setAttribute("sessUser", userDTO);
-			
-			resp.sendRedirect("/jboard2/list.do");
-		}else {
-			// 회원 아님
-			resp.sendRedirect("/jboard2/user/login.do?success=100");
-		}
 
 	}
 

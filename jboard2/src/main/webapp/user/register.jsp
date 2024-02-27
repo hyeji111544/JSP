@@ -126,7 +126,7 @@
             </table>
 
             <div>
-                <a href="./login.html" class="btn btnCancel">취소</a>
+                <a href="/jboard2/user/login.do" class="btn btnCancel">취소</a>
                 <input type="submit" value="회원가입" class="btn btnRegister"/>
             </div>
 

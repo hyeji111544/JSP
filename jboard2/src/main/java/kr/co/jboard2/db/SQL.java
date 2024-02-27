@@ -25,6 +25,7 @@ public class SQL {
 	public static final String INSERT_ARTICLE = "INSERT INTO `Article` SET "
 												+ "`title`=?, "
 												+ "`content`=? , "
+												+ "`file`=? , "
 												+ "`writer`=?, "
 												+ "`regip`=?, "
 												+ "`rdate`=NOW()";
@@ -34,7 +35,11 @@ public class SQL {
 												+ "`writer`=?, "
 												+ "`regip`=?, "
 												+ "`rdate`=NOW()";
-	
+	public static final String INSERT_FILE = "INSERT INTO `File` SET "
+											+ "`ano`=?, "
+											+ "`oName`=?, "
+											+ "`sName`=?, "
+											+ "`rdate`=NOW()";
 	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(*) FROM `article` AS a JOIN `user` AS b "
 													+ "ON a.writer = b.uid WHERE a.`parent` = 0 ";
 	
