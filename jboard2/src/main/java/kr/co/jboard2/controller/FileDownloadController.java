@@ -11,31 +11,36 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import kr.co.jboard2.dto.FileDTO;
 import kr.co.jboard2.service.ArticleService;
+import kr.co.jboard2.service.FileService;
 
-@WebServlet ("/delete.do")
-public class DeleteController extends HttpServlet{
-
-	private static final long serialVersionUID = 314123312231L;
-	private ArticleService service= ArticleService.getInstance();
+@WebServlet("/fileDownload.do")
+public class FileDownloadController extends HttpServlet{
+	private static final long serialVersionUID = 123123121231L;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+	private FileService service = FileService.getInstance();
+	private ArticleService articleService = ArticleService.getInstance();
+
 	@Override
 	public void init() throws ServletException {
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
-	
-		String no = req.getParameter("no");
-		String ano = req.getParameter("no");
-		service.deleteArticle(no, ano);
+		// 파일 번호 수신
+		String fno = req.getParameter("fno");
 		
-		resp.sendRedirect("/jboard2/list.do");
+		// 파일 조회
+		FileDTO fileDTO = service.selectFile(fno);
+		
+		// 파일 다운로드
+		articleService.fileDownload(req, resp, fileDTO);
+		
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	}
+
 }

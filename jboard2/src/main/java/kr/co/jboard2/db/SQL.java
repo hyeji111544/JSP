@@ -11,15 +11,15 @@ public class SQL {
 	
 	
 	public static final String INSERT_USER	= "INSERT INTO `user` SET "
-			+ "`uid`=?,"
-			+ "`pass`=SHA2(?, 256), "
-			+ "`name`=?, "
-			+ "`nick`=?, "
-			+ "`email`=?, "
-			+ "`hp`=?, "
-			+ "`regip`=?, "
-			+ "`sms`=?, "
-			+ "`rdate`= NOW()";
+											+ "`uid`=?,"
+											+ "`pass`=SHA2(?, 256), "
+											+ "`name`=?, "
+											+ "`nick`=?, "
+											+ "`email`=?, "
+											+ "`hp`=?, "
+											+ "`regip`=?, "
+											+ "`sms`=?, "
+											+ "`rdate`= NOW()";
 	public static final String SELECT_USER_FOR_LOGIN = "SELECT * FROM `User` WHERE `uid`=? AND `pass`=SHA2(?, 256)";
 	
 	public static final String INSERT_ARTICLE = "INSERT INTO `Article` SET "
@@ -62,15 +62,20 @@ public class SQL {
 												+ "JOIN `user` AS b ON a.writer = b.uid "
 												+ "WHERE `parent`=? "
 												+ "ORDER BY `no` ASC";
-	
-	public static final String SELECT_ARTICLE = "SELECT * FROM `Article` WHERE `no`=? ";
+	public static final String SELECT_FILE = "SELECT * FROM `File` WHERE `fno`=?";
+	public static final String SELECT_ARTICLE = "SELECT * FROM `article` AS a "
+												+ "LEFT JOIN `file` AS b ON a.`no`=b.`ano` WHERE `no`=?";
 	
 	public static final String UPDATE_HIT_COUNT = "UPDATE `Article` SET `hit` = `hit` + 1 WHERE `no`=?";
 	
 	public static final String UPDATE_ARTICLE = "UPDATE `Article` SET `title`=?, `content`=? Where `no`=?" ;
 	public static final String UPDATE_COMMENT_PLUS = "UPDATE `Article` SET `comment` = `comment` + 1 WHERE `no`=?" ;
 	public static final String UPDATE_COMMENT_MINUS = "UPDATE `Article` SET `comment` = `comment` - 1 WHERE `no`=?" ;
+	
+	public static final String UPDATE_FILE_DOWNLOAD = "UPDATE `File` SET `download` = `download` + 1 WHERE `fno`=?";
+	
 	public static final String DELETE_ARTICLE = "DELETE FROM `Article` WHERE `no`=? or `parent`=?";
+	public static final String DELETE_FILE = "DELETE FROM `File` WHERE `ano`=?";
 	public static final String DELETE_COMMENT = "DELETE FROM `Article` WHERE `no`=?" ;
 	public static final String UPDATE_COMMENT = "UPDATE `Article` SET `content`=? WHERE `no`=?" ;
 	

@@ -6,7 +6,7 @@ public class FileDTO {
 	private int ano;
 	private String oName;
 	private String sName;
-	private int downolad;
+	private int download;
 	private String rdate;
 	
 
@@ -14,9 +14,11 @@ public class FileDTO {
 	public int getFno() {
 		return fno;
 	}
+
 	public void setFno(int fno) {
 		this.fno = fno;
 	}
+
 	public int getAno() {
 		return ano;
 	}
@@ -35,11 +37,11 @@ public class FileDTO {
 	public void setsName(String sName) {
 		this.sName = sName;
 	}
-	public int getDownolad() {
-		return downolad;
+	public int getDownload() {
+		return download;
 	}
-	public void setDownolad(int downolad) {
-		this.downolad = downolad;
+	public void setDownload(int downolad) {
+		this.download = downolad;
 	}
 	public String getRdate() {
 		return rdate;
@@ -49,8 +51,8 @@ public class FileDTO {
 	}
 	@Override
 	public String toString() {
-		return "FileDTO [fno=" + fno + ", ano=" + ano + ", oName=" + oName + ", sName=" + sName + ", downolad="
-				+ downolad + ", rdate=" + rdate + "]";
+		return "FileDTO [fno=" + fno + ", ano=" + ano + ", oName=" + oName + ", sName=" + sName + ", download="
+				+ download + ", rdate=" + rdate + "]";
 	}
 	
 	

@@ -1,16 +1,24 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="./_header.jsp" %>
+<script>
+	const success = ${success};
+	if(success == 100){
+		alert('로그인 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.');
+	}else if(success == 101){
+		alert('로그인 후 이용가능한 페이지입니다.');
+	}
+</script>
 
         <main id="user">
             <section class="login">
                 <form action="/jboard2/user/login.do" method="post">
                     <table border="0">
                         <tr>
-                            <td><img src="../img/login_ico_id.png" alt="아이디"/></td>
+                            <td><img src="/jboard2/img/login_ico_id.png" alt="아이디"/></td>
                             <td><input type="text" name="uid" placeholder="아이디 입력"/></td>
                         </tr>
                         <tr>
-                            <td><img src="../img/login_ico_pw.png" alt="비밀번호"/></td>
+                            <td><img src="/jboard2/img/login_ico_pw.png" alt="비밀번호"/></td>
                             <td><input type="password" name="pass" placeholder="비밀번호 입력"/></td>
                         </tr>
                     </table>

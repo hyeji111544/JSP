@@ -59,6 +59,11 @@ public class ListController extends HttpServlet{
 		
 		// view 공유 참조
 		req.setAttribute("articles", articles);
+		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("lastPageNum", lastPageNum);
+		req.setAttribute("pageGroupStart", result[0]);
+		req.setAttribute("pageGroupEnd", result[1]);
+		req.setAttribute("pageStartNum", pageStartNum+1);
 		
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/list.jsp");

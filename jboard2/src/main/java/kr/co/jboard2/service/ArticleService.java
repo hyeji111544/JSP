@@ -1,12 +1,17 @@
 package kr.co.jboard2.service;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -48,8 +53,21 @@ public class ArticleService {
 	public void updateArticle(ArticleDTO article) {
 		dao.updateArticle(article);
 	}
-	public void deleteArticle(String no) {
-		dao.deleteArticle(no);
+	public void deleteArticle(String no, String ano) {
+		dao.deleteArticle(no, ano);
+	}
+	
+	// 코멘트 처리
+	public void insertComment(ArticleDTO comment) {
+		dao.insertComment(comment);
+	}
+	
+	public List<ArticleDTO> selectComments(String parent){
+		return dao.selectComments(parent);
+	}
+	
+	public void deleteComment(String no, String parent) {
+		dao.deleteComment(no, parent);
 	}
 	
 	public ArticleDTO fileUpload(HttpServletRequest req) {
@@ -124,8 +142,40 @@ public class ArticleService {
 		return articleDTO;
 	}
 	
-	public void fileDownload() {
-		
+	public void fileDownload(HttpServletRequest req, HttpServletResponse resp, FileDTO fileDTO) {
+	
+	
+		try {
+			// response 헤더 설정
+			resp.setContentType("application/octet-stream");
+			resp.setHeader("Content-Disposition", "attachment; filename="+URLEncoder.encode(fileDTO.getoName(), "utf-8"));
+			resp.setHeader("Content-Transfer-Encoding", "binary");
+			resp.setHeader("Pragma", "no-cache");
+			resp.setHeader("Cache-Control", "private");
+			
+			// response 파일 스트림 작업
+			ServletContext ctx = req.getServletContext();
+			String uploadsPath = ctx.getRealPath("/uploads");
+			
+			File file = new File(uploadsPath + File.separator + fileDTO.getsName());
+			
+			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+			BufferedOutputStream bos = new BufferedOutputStream(resp.getOutputStream());
+			
+			while(true){
+				int data = bis.read();
+				if(data == -1){
+					break;
+				}
+				bos.write(data);
+			}
+			
+			bos.close();
+			bis.close();
+			
+		}catch(Exception e) {
+			logger.error("fileDownload : " + e.getMessage());
+		}
 	}
 	
 	// 페이지 마지막 번호
@@ -179,5 +229,8 @@ public class ArticleService {
 	public int getStartNum(int currentPage) {
 		return (currentPage - 1) * 10;
 	}
+	
+	
+
 
 }

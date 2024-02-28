@@ -25,8 +25,8 @@
                     </tr> 
                     <c:forEach var="articles" items="${articles}">                   
                     <tr>
-                        <td>${articles.no}</td>
-                        <td><a href="./view.do?no=${articles.no}">${articles.title}[${articles.comment}]</a></td>
+                        <td>${pageStartNum = pageStartNum - 1}</td>
+                        <td><a href="./view.do?no=${articles.no}&pg=${currentPage}">${articles.title}[${articles.comment}]</a></td>
                         <td>${articles.nick}</td>
                         <td>${articles.rdate}</td>
                         <td>${articles.hit}</td>

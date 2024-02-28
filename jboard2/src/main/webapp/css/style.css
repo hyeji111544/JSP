@@ -386,6 +386,7 @@ footer > p {
     box-sizing: border-box;
     border-bottom: 1px solid #e9e9e9;
 }
+
 #board > .view table td > input {
     width: 400px;
     height: 24px;
@@ -426,8 +427,8 @@ footer > p {
 #board > .view > .commentList > article {overflow: hidden;}        
 #board > .view > .commentList .nick {}
 #board > .view > .commentList .date {}
-#board > .view > .commentList .content {padding: 10px;}
-#board > .view > .commentList > article > div {float: right;}
+#board > .view > .commentList .comment {padding: 10px;}
+#board > .view > .commentList > article div {float: right ;}
 #board > .view > .commentList > article .remove {}
 #board > .view > .commentList > article .modify {}
 #board > .view > .commentList > .empty {

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mysql.cj.Session;
+
 import kr.co.jboard2.dto.UserDTO;
 import kr.co.jboard2.service.UserService;
 
@@ -32,6 +34,11 @@ public class LoginController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		String success = req.getParameter("success");
+
+		
+		req.setAttribute("success", success);
+		
 		RequestDispatcher dispatcher= req.getRequestDispatcher("/user/login.jsp");
 		dispatcher.forward(req, resp);
 	}
@@ -54,7 +61,8 @@ public class LoginController extends HttpServlet{
 			// 회원 아님
 			resp.sendRedirect("/jboard2/user/login.do?success=100");
 		}
-
+		
+		
 	}
 
 
