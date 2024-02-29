@@ -178,12 +178,29 @@ public class ArticleDAO extends DBHelper{
 			logger.error("updateArticle : " + e.getMessage());
 		}
 	}
+	
+	public void updateArticleForFileCount(int no) {
+		
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE_FOR_FILE_MINUS);
+			psmt.setInt(1, no);
+			logger.info("updateArticleForFileCount : " + psmt);
+			
+			psmt.executeUpdate();		
+			closeAll();			
+			
+		}catch (Exception e) {
+			logger.error("updateArticleForFileCount : " + e.getMessage());
+		}
+	}
+	
 	public void deleteArticle(String no, String ano) {
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
 			
-			psmt = conn.prepareStatement(SQL.DELETE_FILE);
+			psmt = conn.prepareStatement(SQL.DELETE_FILES);
 			psmt.setString(1, ano);
 			psmtEtc1 = conn.prepareStatement(SQL.DELETE_ARTICLE);
 			psmtEtc1.setString(1, no);
@@ -202,6 +219,44 @@ public class ArticleDAO extends DBHelper{
 
 	
 	// 코멘트 처리 
+	// AJAX 로 한거
+	public int insertComment(ArticleDTO articleDTO) {
+		
+		int pk = 0;
+		
+		try {
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			psmt = conn.prepareStatement(SQL.INSERT_COMMENT, Statement.RETURN_GENERATED_KEYS);
+			psmt.setInt(1, articleDTO.getParent());
+			psmt.setString(2, articleDTO.getContent());
+			psmt.setString(3, articleDTO.getWriter());
+			psmt.setString(4, articleDTO.getRegip());
+			logger.info("insertComment : " + psmt);
+			
+			psmtEtc1 = conn.prepareStatement(SQL.UPDATE_COMMENT_PLUS);
+			psmtEtc1.setInt(1, articleDTO.getParent());
+			logger.info("countComment : " + psmt);
+			
+			psmtEtc1.executeUpdate();
+			psmt.executeUpdate();
+			conn.commit();
+			
+			
+			// insert 되어 부여된 생성된 PK 가져오기.
+			rs = psmt.getGeneratedKeys();
+			if(rs.next()) {
+				pk = rs.getInt(1);
+			}
+			closeAll();
+		}catch (Exception e) {
+			logger.error("insertComment : " + e.getMessage());
+		}
+		
+		return pk;
+	}
+	
+	/* 서블릿으로 한거
 	public void insertComment(ArticleDTO comment) {
 			try {
 				conn = getConnection();
@@ -225,6 +280,7 @@ public class ArticleDAO extends DBHelper{
 				logger.error("insertComment : "+ e.getMessage());
 			}
 	}
+	*/
 	
 	public List<ArticleDTO> selectComments(String parent){
 			
@@ -260,9 +316,9 @@ public class ArticleDAO extends DBHelper{
 		return comments;
 	}
 	
-	public void deleteComment(String no, String parent) {
-		System.out.println("delectComment no: " + no);
-		System.out.println("delectComment parent: " + parent);
+	public int deleteComment(String no, String parent) {
+		
+		int result= 0;
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
@@ -275,7 +331,7 @@ public class ArticleDAO extends DBHelper{
 			psmtEtc1.setString(1, parent);
 			System.out.println("update_comment_minus: " +psmtEtc1);
 			
-			psmt.executeUpdate();
+			result = psmt.executeUpdate();
 			psmtEtc1.executeUpdate();
 			
 			conn.commit();
@@ -283,5 +339,6 @@ public class ArticleDAO extends DBHelper{
 		}catch (Exception e) {
 			logger.error("deleteComment : " + e.getMessage());
 		}
+		return result;
 	}
 }

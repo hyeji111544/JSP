@@ -9,7 +9,14 @@ public class FileDTO {
 	private int download;
 	private String rdate;
 	
-
+	public FileDTO() {
+		
+	}
+	
+	public FileDTO(int ano, String sname) {
+		this.ano = ano;
+		this.sName = sName;
+	}
 	
 	public int getFno() {
 		return fno;

@@ -28,9 +28,9 @@ public class ModifyController extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		String pg = req.getParameter("pg");
 		String no = req.getParameter("no");
-		
+		System.out.println("modifyPg:" + pg);
 		ArticleDTO article = service.selectArticle(no);
 		
 		req.setAttribute("article", article);
@@ -46,9 +46,10 @@ public class ModifyController extends HttpServlet{
 		String title = req.getParameter("title");
 		String content = req.getParameter("content");
 		String no = req.getParameter("no");
+		String pg = req.getParameter("pg");
 		
 		System.out.println("title: " + title);
-		System.out.println("doPostNo: " + no);
+		System.out.println("doPostpg: " + pg);
 		
 		ArticleDTO article = new ArticleDTO();
 		article.setTitle(title);
@@ -57,6 +58,6 @@ public class ModifyController extends HttpServlet{
 
 		service.updateArticle(article);
 		
-		resp.sendRedirect("/jboard2/view.do?no="+article.getNo());
+		resp.sendRedirect("/jboard2/view.do?no="+article.getNo()+"&pg="+pg);
 	}
 }

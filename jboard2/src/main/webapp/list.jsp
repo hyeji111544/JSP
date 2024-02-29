@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="./_header.jsp" %>
         <main id="board">
             <section class="list">                
@@ -28,7 +29,7 @@
                         <td>${pageStartNum = pageStartNum - 1}</td>
                         <td><a href="./view.do?no=${articles.no}&pg=${currentPage}">${articles.title}[${articles.comment}]</a></td>
                         <td>${articles.nick}</td>
-                        <td>${articles.rdate}</td>
+                        <td>${fn:substring(articles.rdate, 0, 10)}</td>
                         <td>${articles.hit}</td>
                     </tr>
                     </c:forEach>

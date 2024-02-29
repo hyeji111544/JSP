@@ -21,6 +21,8 @@ public class FileDAO extends DBHelper{
 	public void insertFile(FileDTO fileDTO) {
 		try {
 			conn = getConnection();
+
+			
 			psmt = conn.prepareStatement(SQL.INSERT_FILE);
 			psmt.setInt(1, fileDTO.getAno());
 			psmt.setString(2, fileDTO.getoName());
@@ -68,9 +70,70 @@ public class FileDAO extends DBHelper{
 		
 		return fileDTO;
 	}
+	
+	
+	public FileDTO selectFileForSname(String fno) {
+		
+		int ano = 0;
+		String sname = null;
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_FILE_FOR_SNAME);
+			psmt.setString(1, fno);
+			logger.info("selectFileForSname : " + psmt);
+			
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				sname = rs.getString(1);
+			}
+			closeAll();
+		}catch (Exception e) {
+			logger.error("");
+		}
+		return new FileDTO(ano, sname);
+		
+	}
 	public List<FileDTO> selectFiles() {
 		return null;
 	}
-	public void updateFile(FileDTO file) {}
-	public void deleteFile(int no) {}
+	public void updateFile(FileDTO file) {
+	}
+	public FileDTO deleteFile(String fno) {
+		/*
+		 * 삭제하기 전에 반드시 파일의 글 번호를 반환해야 함
+		 * 반환된 파일의 글 번호를 가지고 해당 글의 file 컬럼 값을 -1 해줘야 함
+		 */
+		
+		// 삭제할 파일의 글번호
+		int ano = 0;
+		String sname = null;
+		try {
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			
+			psmtEtc1 = conn.prepareStatement(SQL.SELECT_FILE_FOR_DELETE);
+			psmtEtc1.setString(1, fno);
+			logger.info("deleteFile : " + psmtEtc1);
+			
+			psmt = conn.prepareStatement(SQL.DELETE_FILE);			
+			psmt.setString(1, fno);
+			logger.info("deleteFile : " + psmt);
+			
+			rs = psmtEtc1.executeQuery();
+			psmt.executeUpdate();
+			conn.commit();
+			
+			if(rs.next()) {
+				ano = rs.getInt(1);
+				sname = rs.getString(2);
+			}
+			closeAll();
+		}catch (Exception e) {
+			logger.error("deleteFile : " + e.getMessage());
+		}
+		
+		return new FileDTO(ano, sname);
+	
+	}
 }

@@ -53,21 +53,32 @@ public class ArticleService {
 	public void updateArticle(ArticleDTO article) {
 		dao.updateArticle(article);
 	}
+	
+	public void updateArticleForFileCount(int no) {
+		dao.updateArticleForFileCount(no);
+	}
+	
 	public void deleteArticle(String no, String ano) {
 		dao.deleteArticle(no, ano);
 	}
 	
 	// 코멘트 처리
+	/* 서블릿
 	public void insertComment(ArticleDTO comment) {
 		dao.insertComment(comment);
+	}
+	*/
+	
+	public int insertComment(ArticleDTO articleDTO) {
+		return dao.insertComment(articleDTO);
 	}
 	
 	public List<ArticleDTO> selectComments(String parent){
 		return dao.selectComments(parent);
 	}
 	
-	public void deleteComment(String no, String parent) {
-		dao.deleteComment(no, parent);
+	public int deleteComment(String no, String parent) {
+		return dao.deleteComment(no, parent);
 	}
 	
 	public ArticleDTO fileUpload(HttpServletRequest req) {
@@ -220,6 +231,8 @@ public class ArticleService {
 		
 		if(pg != null){
 			currentPage = Integer.parseInt(pg);	
+		}else {
+			currentPage = 1;
 		}
 		
 		return currentPage;
